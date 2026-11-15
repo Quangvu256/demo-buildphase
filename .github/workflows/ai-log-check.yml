@@ -1,0 +1,51 @@
+name: ai-log-check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  ai-log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate AI Usage & Safety review
+        env:
+          # Passed via env (not inline ${{ }}) to avoid script injection from PR body
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          body="${PR_BODY:-}"
+
+          if printf '%s' "$body" | grep -qiE '\[x\] *Không dùng AI'; then
+            echo "PR declares no AI usage."
+          else
+            logs=$(printf '%s' "$body" | grep -oE 'ai-log/sessions/[A-Za-z0-9._-]+\.md' | sort -u || true)
+            if [ -z "$logs" ]; then
+              echo "::error::Thiếu AI log. Tick 'Không dùng AI' hoặc dẫn đường dẫn ai-log/sessions/<file>.md trong PR."
+              exit 1
+            fi
+            for f in $logs; do
+              if [ ! -f "$f" ]; then
+                echo "::error::Không tìm thấy AI log: $f (đã commit chưa?)"
+                exit 1
+              fi
+              echo "Found AI log: $f"
+            done
+          fi
+
+          changed=$(git diff --name-only "$BASE_SHA"...HEAD)
+          if printf '%s\n' "$changed" | grep -qE '^(packages/agent/|prompts/|rules/|tests/safety/)|safety_templates|hotline'; then
+            if ! printf '%s' "$body" | grep -qiE '\[x\] *Safety review'; then
+              echo "::error::PR chạm thành phần an toàn — bắt buộc tick 'Safety review' và ghi tên reviewer."
+              exit 1
+            fi
+            echo "Safety-sensitive paths changed; Safety review confirmed."
+          fi
