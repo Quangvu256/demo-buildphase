@@ -60,6 +60,10 @@ flowchart TD
 
 ## 2. Khung chung
 
+### Nền không gian an tĩnh (`#leavesContainer` & `.bg-weave`)
+- `.bg-weave`: các vòng tròn đồng tâm mờ trôi chậm quanh viền trang web.
+- `#leavesContainer`: hiệu ứng lá rơi tự nhiên định kỳ (~10 giây/lá, tối ưu GPU và tự dọn DOM sau khi đáp), tự động tắt hoàn toàn khi người dùng bật `prefers-reduced-motion: reduce`.
+
 ### Header
 
 ```

@@ -23,7 +23,9 @@ Thiết kế kiến trúc hệ thống (4 sơ đồ chuẩn hóa: System Overvie
   - 4 sơ đồ Mermaid tuân thủ 5 quy tắc diagram (đặt tên rõ chức năng, phân nhóm `subgraph`, nhãn hướng dữ liệu, đánh số thứ tự `(1)..(n)`, tách riêng góc nhìn): System Overview, Chat SSE + WebSocket Takeover Sequence, LangGraph State Machine với Safety-First Fast Path + 2 Agentic Loops (Corrective RAG & Output Guardrail), Deployment Diagram.
   - Thiết kế Backend sâu: `AgentState` với `monotonic_risk_reducer`, bảng Latency Budget & Fail-safe `detector_degraded` ở `1500ms`, thiết kế Postgres trigger `append-only`, HNSW/Partial B-Tree index, mã hóa AES-256-GCM + Break-glass audit, và Redis Pub/Sub + Sorted Set cho Takeover/SLA.
   - 6 ADR chuẩn mẫu (`ADR-001` đến `ADR-006`): Hybrid Crisis Detection, LangGraph Orchestration, Postgres + pgvector, SSE + WebSocket, Curated Local KB vs Live Web Search (Tavily/Serper.dev/Google Custom Search), và Pre-LLM PII Redaction + AES-256 + Append-only `risk_events`.
-- Cập nhật liên kết tài liệu tại `README.md`, `docs/01-BRIEF.md`, `docs/02-PRD.md`, `docs/03-WIREFRAME-UI-FLOW.md`.
+- Cập nhật `docs/02-PRD.md` lên **v0.2** đồng bộ với kiến trúc trong `docs/04-ARCHITECTURE.md` (phi mục tiêu `ADR-005`, `monotonic_risk_reducer`, `CRISIS_DETECTOR_TIMEOUT_MS=1500ms` / `detector_degraded`, 2 Agentic Loops trong LangGraph, Redis Pub/Sub + Sorted Set cho Takeover/SLA, `HNSW`/`Partial Index`, `AES-256-GCM`, `append-only` triggers, Break-glass audit, API `/v1/hotlines` & `/break-glass`, Latency Budget Breakdown).
+- Cập nhật `demo/index.html`: tích hợp hiệu ứng lá rơi tự nhiên (`#leavesContainer`, `.falling-leaf`, `leafSVGs`, tôn trọng `prefers-reduced-motion: reduce`) vào giao diện demo đầy đủ chức năng hiện có; đồng bộ mô tả trong `docs/03-WIREFRAME-UI-FLOW.md`.
+- Cập nhật `.env.example` (thêm `REDIS_URL`) và liên kết tài liệu tại `README.md`, `docs/01-BRIEF.md`, `docs/02-PRD.md`, `docs/03-WIREFRAME-UI-FLOW.md`.
 
 ## 4. Con người đã review & chỉnh sửa
 | Hạng mục | Quyết định | Lý do |
@@ -46,7 +48,10 @@ Thiết kế kiến trúc hệ thống (4 sơ đồ chuẩn hóa: System Overvie
 
 ## 7. Files bị ảnh hưởng
 - `docs/04-ARCHITECTURE.md` (tạo mới)
-- `README.md`, `docs/01-BRIEF.md`, `docs/02-PRD.md`, `docs/03-WIREFRAME-UI-FLOW.md` (thêm liên kết)
+- `docs/02-PRD.md` (nâng lên v0.2 đồng bộ kiến trúc)
+- `demo/index.html` (tích hợp hiệu ứng lá rơi tự nhiên)
+- `.env.example` (thêm `REDIS_URL`)
+- `README.md`, `docs/01-BRIEF.md`, `docs/03-WIREFRAME-UI-FLOW.md` (cập nhật liên kết & ghi chú wireframe)
 - `ai-log/sessions/2026-11-15_be_system-architecture-adr.md`, `ai-log/INDEX.md`
 
 ## 8. Bài học / Ghi chú

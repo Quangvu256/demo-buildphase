@@ -12,7 +12,7 @@
 | # | Deliverable | File | Trạng thái |
 |---|---|---|---|
 | 1 | Project Brief | [docs/01-BRIEF.md](docs/01-BRIEF.md) | ✅ v0.1 |
-| 2 | PRD | [docs/02-PRD.md](docs/02-PRD.md) | ✅ v0.1 |
+| 2 | PRD | [docs/02-PRD.md](docs/02-PRD.md) | ✅ v0.2 |
 | 3 | Wireframe & UI Flow | [docs/03-WIREFRAME-UI-FLOW.md](docs/03-WIREFRAME-UI-FLOW.md) | ✅ v0.1 |
 | 4 | GitHub Repo + AI Log setup | [ai-log/README.md](ai-log/README.md), [.github/](.github/), [CLAUDE.md](CLAUDE.md) | ✅ v0.1 |
 | 5 | System Architecture & ADRs | [docs/04-ARCHITECTURE.md](docs/04-ARCHITECTURE.md) | ✅ v0.1 |
@@ -47,7 +47,7 @@ Thư mục code (`apps/web`, `apps/api`, `packages/agent`, `tests/safety`) sẽ 
 
 ## Tech stack (theo PRD)
 
-Next.js (web, 3 vai trò) · FastAPI · LangGraph · Postgres + pgvector · RAG trên tài liệu CBT/tự chăm sóc có nguồn · HL7 FHIR R4 export · Deploy cloud.
+Next.js (web, 3 vai trò) · FastAPI · LangGraph · Postgres + pgvector · Redis · RAG trên tài liệu CBT/tự chăm sóc có nguồn · HL7 FHIR R4 export · Deploy cloud.
 
 ## Quy tắc làm việc với AI
 
