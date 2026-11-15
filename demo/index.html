@@ -1603,11 +1603,23 @@ setInterval(()=>{
     leaf.addEventListener('animationend',removeLeaf,{once:true});
     setTimeout(removeLeaf,(fallSec+1)*1000);
   }
+  function bezierPt(t,p0,p1,p2,p3){
+    const u=1-t,uu=u*u,tt=t*t;
+    return {
+      x:uu*u*p0.x+3*uu*t*p1.x+3*u*tt*p2.x+tt*t*p3.x,
+      y:uu*u*p0.y+3*uu*t*p1.y+3*u*tt*p2.y+tt*t*p3.y
+    };
+  }
+  function bezierTan(t,p0,p1,p2,p3){
+    const u=1-t;
+    return {
+      dx:3*u*u*(p1.x-p0.x)+6*u*t*(p2.x-p1.x)+3*t*t*(p3.x-p2.x),
+      dy:3*u*u*(p1.y-p0.y)+6*u*t*(p2.y-p1.y)+3*t*t*(p3.y-p2.y)
+    };
+  }
   function spawnCuteBird(){
     if(document.hidden||container.querySelector('.flying-bird')) return;
     const bird=document.createElement('div');
-    const ltr=Math.random()<0.5;
-    bird.className=ltr?'flying-bird':'flying-bird rtl';
     const w=Math.floor(Math.random()*6+36);
     const h=Math.round(w*0.82);
     const p=birdPalettes[Math.floor(Math.random()*birdPalettes.length)];
@@ -1616,75 +1628,82 @@ setInterval(()=>{
     bird.innerHTML=birdSVG(p);
 
     const perch=$('#zenHero .hero-perch');
-    if(perch&&perch.offsetParent!==null&&typeof bird.animate==='function'){
+    if(perch&&perch.offsetParent!==null){
+      bird.className='flying-bird rtl';
       const pr=perch.getBoundingClientRect();
-      const landX=Math.round(pr.left+pr.width*(0.24+Math.random()*0.48)-w*0.5);
+      const landX=Math.round(pr.left+pr.width*(0.28+Math.random()*0.42)-w*0.5);
       const landY=Math.round(pr.top+pr.height*0.12-h*0.92);
-      const dir=ltr?1:-1;
-      const inDist=Math.min(200,Math.round(window.innerWidth*0.16));
-      const span=Math.min(95,Math.max(55,Math.round(window.innerWidth*0.08)));
-      const startX=Math.max(16,Math.min(window.innerWidth-w-16,landX-dir*inDist));
-      const endX=Math.max(16,Math.min(window.innerWidth-w-16,landX-dir*inDist));
-      const sweepX=Math.max(24,Math.min(window.innerWidth-w-24,landX+dir*span));
-      const p1X=Math.round(startX+(landX-startX)*0.36);
-      const startY=Math.max(18,landY-68);
-      const highY=Math.max(16,landY-86);
-      const dipY=Math.max(20,landY-34);
-      const endY=Math.max(16,landY-72);
+      const rightEdge=window.innerWidth+32;
+      const p0={x:rightEdge,y:Math.max(24,landY-95)};
+      const p1={x:Math.round(landX+(rightEdge-landX)*0.68),y:Math.max(16,landY-145)};
+      const p2={x:Math.round(landX+(rightEdge-landX)*0.18),y:landY+24};
+      const p3={x:landX,y:landY};
 
       bird.style.top='0px';
       bird.style.animation='none';
+      bird.style.opacity='0';
+      bird.style.transform=`translate3d(${p0.x}px, ${p0.y}px, 0)`;
       container.appendChild(bird);
 
-      let alive=true, turnTimer=null, perchTimer=null, guardTimer=null;
+      let alive=true, rafId=0, perchTimer=null;
       const cleanup=()=>{
         alive=false;
-        clearTimeout(turnTimer);
+        cancelAnimationFrame(rafId);
         clearTimeout(perchTimer);
-        clearInterval(guardTimer);
         if(bird.parentNode) bird.remove();
       };
-      guardTimer=setInterval(()=>{
-        if(!alive||!bird.parentNode||document.hidden||perch.offsetParent===null){
-          cleanup();
-        }
-      },350);
 
-      const approachDur=15500;
-      turnTimer=setTimeout(()=>{
-        if(alive) bird.classList.toggle('rtl',ltr);
-      },Math.round(approachDur*0.70));
-
-      const approach=bird.animate([
-        {transform:`translate3d(${startX}px, ${startY}px, 0)`,opacity:0},
-        {transform:`translate3d(${p1X}px, ${startY-12}px, 0)`,opacity:0.44,offset:0.18},
-        {transform:`translate3d(${landX}px, ${highY}px, 0)`,opacity:0.50,offset:0.42},
-        {transform:`translate3d(${sweepX}px, ${Math.max(18,landY-58)}px, 0)`,opacity:0.52,offset:0.66},
-        {transform:`translate3d(${sweepX+dir*8}px, ${dipY}px, 0)`,opacity:0.52,offset:0.74},
-        {transform:`translate3d(${Math.round((sweepX+landX)/2)}px, ${landY-14}px, 0)`,opacity:0.56,offset:0.90},
-        {transform:`translate3d(${landX}px, ${landY}px, 0)`,opacity:0.58}
-      ],{duration:approachDur,easing:'linear',fill:'forwards'});
-
-      approach.onfinish=()=>{
-        if(!alive||perch.offsetParent===null){cleanup();return;}
-        bird.classList.add('perched');
-        const stayMs=6000+Math.random()*2500;
-        perchTimer=setTimeout(()=>{
-          if(!alive){cleanup();return;}
-          bird.classList.remove('perched');
-          const takeoff=bird.animate([
-            {transform:`translate3d(${landX}px, ${landY}px, 0)`,opacity:0.58},
-            {transform:`translate3d(${landX-dir*28}px, ${landY-22}px, 0)`,opacity:0.50,offset:0.24},
-            {transform:`translate3d(${Math.round((landX+endX)*0.5)}px, ${endY-14}px, 0)`,opacity:0.42,offset:0.65},
-            {transform:`translate3d(${endX}px, ${endY}px, 0)`,opacity:0}
-          ],{duration:8200,easing:'cubic-bezier(0.37, 0, 0.63, 1)',fill:'forwards'});
-          takeoff.onfinish=cleanup;
-          setTimeout(cleanup,8800);
-        },stayMs);
+      const flyPath=(pts,dur,easeFn,opFn,onDone)=>{
+        let t0=null;
+        const step=ts=>{
+          if(!alive||!bird.parentNode||document.hidden||perch.offsetParent===null){cleanup();return;}
+          if(!t0) t0=ts;
+          const raw=Math.min(1,(ts-t0)/dur);
+          const u=easeFn(raw);
+          const pos=bezierPt(u,pts[0],pts[1],pts[2],pts[3]);
+          const tan=bezierTan(u,pts[0],pts[1],pts[2],pts[3]);
+          const wave=Math.sin(raw*Math.PI*6)*5*(1-raw);
+          let deg=-Math.atan2(tan.dy,Math.max(1,Math.abs(tan.dx)))*(180/Math.PI);
+          deg=Math.max(-14,Math.min(14,deg))*(1-raw*raw);
+          bird.style.transform=`translate3d(${pos.x.toFixed(1)}px, ${(pos.y+wave).toFixed(1)}px, 0) rotate(${deg.toFixed(1)}deg)`;
+          bird.style.opacity=opFn(raw).toFixed(2);
+          if(raw<1){rafId=requestAnimationFrame(step);} else {onDone();}
+        };
+        rafId=requestAnimationFrame(step);
       };
+
+      flyPath(
+        [p0,p1,p2,p3],
+        14000,
+        r=>0.70*r+0.30*(1-Math.pow(1-r,2)),
+        r=>Math.min(0.58,0.08+r*2.4),
+        ()=>{
+          if(!alive||perch.offsetParent===null){cleanup();return;}
+          bird.style.transform=`translate3d(${landX}px, ${landY}px, 0) rotate(0deg)`;
+          bird.style.opacity='0.58';
+          bird.classList.add('perched');
+          const stayMs=6000+Math.random()*2500;
+          perchTimer=setTimeout(()=>{
+            if(!alive||!bird.parentNode||document.hidden||perch.offsetParent===null){cleanup();return;}
+            bird.classList.remove('perched');
+            const q0={x:landX,y:landY};
+            const q1={x:landX-90,y:Math.max(16,landY-45)};
+            const q2={x:Math.round(landX*0.45),y:Math.max(18,landY-125)};
+            const q3={x:-56,y:Math.max(18,landY-95)};
+            flyPath(
+              [q0,q1,q2,q3],
+              8500,
+              r=>0.45*r+0.55*(r*r),
+              r=>Math.max(0,0.58*(1-Math.pow(r,1.8))),
+              cleanup
+            );
+          },stayMs);
+        }
+      );
       return;
     }
 
+    bird.className='flying-bird rtl';
     const dur=20+Math.random()*4;
     const topVh=Math.floor(Math.random()*26+12);
     bird.style.top=topVh+'vh';
