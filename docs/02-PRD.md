@@ -6,7 +6,7 @@
 | Ngày | 2026-11-15 |
 | Owner | Project Manager |
 | Reviewers | Tech Lead, AI Engineer, FE Lead, Safety/QA, Cố vấn lâm sàng |
-| Liên quan | [Brief](01-BRIEF.md) · [Wireframe & UI Flow](03-WIREFRAME-UI-FLOW.md) |
+| Liên quan | [Brief](01-BRIEF.md) · [Wireframe & UI Flow](03-WIREFRAME-UI-FLOW.md) · [Architecture & ADR](04-ARCHITECTURE.md) |
 
 **Quy ước nhãn:** `[FACT]` đã kiểm chứng · `[ASSUMPTION]` giả định · `[UNKNOWN]` cần làm rõ · `[UNVERIFIED]` chưa xác minh · `[ESTIMATE]` ước tính.
 **Ưu tiên:** P0 = MVP bắt buộc · P1 = Nâng cao, nên có · P2 = Nếu còn thời gian.

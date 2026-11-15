@@ -15,6 +15,7 @@
 | 2 | PRD | [docs/02-PRD.md](docs/02-PRD.md) | ✅ v0.1 |
 | 3 | Wireframe & UI Flow | [docs/03-WIREFRAME-UI-FLOW.md](docs/03-WIREFRAME-UI-FLOW.md) | ✅ v0.1 |
 | 4 | GitHub Repo + AI Log setup | [ai-log/README.md](ai-log/README.md), [.github/](.github/), [CLAUDE.md](CLAUDE.md) | ✅ v0.1 |
+| 5 | System Architecture & ADRs | [docs/04-ARCHITECTURE.md](docs/04-ARCHITECTURE.md) | ✅ v0.1 |
 
 ## Cấu trúc repo
 
@@ -26,7 +27,8 @@
 ├── docs/
 │   ├── 01-BRIEF.md
 │   ├── 02-PRD.md
-│   └── 03-WIREFRAME-UI-FLOW.md
+│   ├── 03-WIREFRAME-UI-FLOW.md
+│   └── 04-ARCHITECTURE.md
 ├── ai-log/                       # Nhật ký sử dụng AI trong quá trình phát triển
 │   ├── README.md                 # Chính sách + quy ước
 │   ├── TEMPLATE.md

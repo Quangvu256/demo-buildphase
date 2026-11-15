@@ -8,7 +8,7 @@
 | Ngày | 2026-11-15 |
 | Owner | Project Manager |
 | Trạng thái | Draft, chờ team review |
-| Tài liệu liên quan | [PRD](02-PRD.md) · [Wireframe & UI Flow](03-WIREFRAME-UI-FLOW.md) |
+| Tài liệu liên quan | [PRD](02-PRD.md) · [Wireframe & UI Flow](03-WIREFRAME-UI-FLOW.md) · [Architecture & ADR](04-ARCHITECTURE.md) |
 
 ---
 

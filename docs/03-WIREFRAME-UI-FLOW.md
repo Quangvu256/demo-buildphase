@@ -4,7 +4,7 @@
 |---|---|
 | Phiên bản | v0.2 — Đồng bộ theo demo HTML (`demo/index.html`), Gate 1 |
 | Ngày | 2026-11-15 |
-| Liên quan | [PRD](02-PRD.md) (mã màn hình map sang Epic E1–E9) · [Demo](../demo/index.html) |
+| Liên quan | [PRD](02-PRD.md) (mã màn hình map sang Epic E1–E9) · [Architecture & ADR](04-ARCHITECTURE.md) · [Demo](../demo/index.html) |
 | Thiết bị | Single-page app, responsive: user ưu tiên mobile (header xuống 2 hàng khi ≤ 900px) · console chuyên gia dùng desktop (chế độ Song song ≥ 1040px) |
 
 > v0.2 vẽ lại wireframe theo đúng giao diện demo. Những gì PRD có mà demo **chưa** làm được liệt kê ở §6, không vẽ như thể đã có.
