@@ -91,14 +91,14 @@ p{margin:0}
 .flying-bird.rtl .bird-dir{transform:scaleX(-1)}
 .flying-bird svg{
   width:100%;height:100%;display:block;overflow:visible;
-  animation:birdBob 1.3s ease-in-out infinite alternate;
+  animation:birdBob 1.8s ease-in-out infinite alternate;
 }
 .flying-bird .bird-wing{
   transform-box:fill-box;transform-origin:38% 42%;
-  animation:birdWing 0.46s ease-in-out infinite alternate;
+  animation:birdWing 0.68s ease-in-out infinite alternate;
 }
 .flying-bird.perched svg{
-  animation:birdIdle 3.2s ease-in-out infinite;
+  animation:birdIdle 4.2s ease-in-out infinite;
 }
 .flying-bird.perched .bird-wing{
   animation:none;transform:rotate(-6deg) scaleY(0.92);
@@ -1621,15 +1621,16 @@ setInterval(()=>{
       const landX=Math.round(pr.left+pr.width*(0.24+Math.random()*0.48)-w*0.5);
       const landY=Math.round(pr.top+pr.height*0.12-h*0.92);
       const dir=ltr?1:-1;
-      const startX=ltr?-60:window.innerWidth+60;
-      const endX=ltr?-60:window.innerWidth+60;
-      const span=Math.min(180,Math.max(85,Math.round(window.innerWidth*0.15)));
-      const midX=Math.round((startX+landX)*0.48);
+      const inDist=Math.min(200,Math.round(window.innerWidth*0.16));
+      const span=Math.min(95,Math.max(55,Math.round(window.innerWidth*0.08)));
+      const startX=Math.max(16,Math.min(window.innerWidth-w-16,landX-dir*inDist));
+      const endX=Math.max(16,Math.min(window.innerWidth-w-16,landX-dir*inDist));
       const sweepX=Math.max(24,Math.min(window.innerWidth-w-24,landX+dir*span));
-      const startY=Math.max(16,landY-92);
-      const highY=Math.max(14,landY-115);
-      const dipY=Math.max(18,landY-44);
-      const endY=Math.max(14,landY-95);
+      const p1X=Math.round(startX+(landX-startX)*0.36);
+      const startY=Math.max(18,landY-68);
+      const highY=Math.max(16,landY-86);
+      const dipY=Math.max(20,landY-34);
+      const endY=Math.max(16,landY-72);
 
       bird.style.top='0px';
       bird.style.animation='none';
@@ -1649,42 +1650,42 @@ setInterval(()=>{
         }
       },350);
 
-      const approachDur=8400;
+      const approachDur=15500;
       turnTimer=setTimeout(()=>{
         if(alive) bird.classList.toggle('rtl',ltr);
-      },Math.round(approachDur*0.54));
+      },Math.round(approachDur*0.70));
 
       const approach=bird.animate([
         {transform:`translate3d(${startX}px, ${startY}px, 0)`,opacity:0},
-        {transform:`translate3d(${midX}px, ${highY}px, 0)`,opacity:0.46,offset:0.25},
-        {transform:`translate3d(${sweepX}px, ${Math.max(18,landY-78)}px, 0)`,opacity:0.50,offset:0.48},
-        {transform:`translate3d(${sweepX+dir*14}px, ${dipY}px, 0)`,opacity:0.50,offset:0.58},
-        {transform:`translate3d(${Math.round((sweepX+landX)/2)}px, ${dipY-12}px, 0)`,opacity:0.54,offset:0.78},
-        {transform:`translate3d(${landX+dir*10}px, ${landY-9}px, 0)`,opacity:0.56,offset:0.93},
+        {transform:`translate3d(${p1X}px, ${startY-12}px, 0)`,opacity:0.44,offset:0.18},
+        {transform:`translate3d(${landX}px, ${highY}px, 0)`,opacity:0.50,offset:0.42},
+        {transform:`translate3d(${sweepX}px, ${Math.max(18,landY-58)}px, 0)`,opacity:0.52,offset:0.66},
+        {transform:`translate3d(${sweepX+dir*8}px, ${dipY}px, 0)`,opacity:0.52,offset:0.74},
+        {transform:`translate3d(${Math.round((sweepX+landX)/2)}px, ${landY-14}px, 0)`,opacity:0.56,offset:0.90},
         {transform:`translate3d(${landX}px, ${landY}px, 0)`,opacity:0.58}
-      ],{duration:approachDur,easing:'ease-in-out',fill:'forwards'});
+      ],{duration:approachDur,easing:'linear',fill:'forwards'});
 
       approach.onfinish=()=>{
         if(!alive||perch.offsetParent===null){cleanup();return;}
         bird.classList.add('perched');
-        const stayMs=5000+Math.random()*2200;
+        const stayMs=6000+Math.random()*2500;
         perchTimer=setTimeout(()=>{
           if(!alive){cleanup();return;}
           bird.classList.remove('perched');
           const takeoff=bird.animate([
             {transform:`translate3d(${landX}px, ${landY}px, 0)`,opacity:0.58},
-            {transform:`translate3d(${landX-dir*36}px, ${landY-26}px, 0)`,opacity:0.50,offset:0.22},
-            {transform:`translate3d(${Math.round((landX+endX)*0.48)}px, ${endY-18}px, 0)`,opacity:0.44,offset:0.62},
+            {transform:`translate3d(${landX-dir*28}px, ${landY-22}px, 0)`,opacity:0.50,offset:0.24},
+            {transform:`translate3d(${Math.round((landX+endX)*0.5)}px, ${endY-14}px, 0)`,opacity:0.42,offset:0.65},
             {transform:`translate3d(${endX}px, ${endY}px, 0)`,opacity:0}
-          ],{duration:4600,easing:'ease-in-out',fill:'forwards'});
+          ],{duration:8200,easing:'cubic-bezier(0.37, 0, 0.63, 1)',fill:'forwards'});
           takeoff.onfinish=cleanup;
-          setTimeout(cleanup,5200);
+          setTimeout(cleanup,8800);
         },stayMs);
       };
       return;
     }
 
-    const dur=12.5+Math.random()*3;
+    const dur=20+Math.random()*4;
     const topVh=Math.floor(Math.random()*26+12);
     bird.style.top=topVh+'vh';
     bird.style.animationDuration=dur.toFixed(1)+'s';
