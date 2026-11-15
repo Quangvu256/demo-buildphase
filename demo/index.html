@@ -81,36 +81,45 @@ p{margin:0}
 
 /* Chú chim tròn nhỏ thỉnh thoảng bay ngang qua */
 .flying-bird{
-  position:absolute;left:0;top:var(--bird-top, 24vh);width:38px;height:32px;pointer-events:none;
-  filter:drop-shadow(0 3px 8px rgba(45,106,79,0.10));
+  position:fixed;left:0;top:24vh;width:48px;height:40px;pointer-events:none;
+  filter:drop-shadow(0 4px 10px rgba(27,67,50,0.14));
   will-change:transform,opacity;
-  animation:birdFly var(--bird-dur, 13s) linear forwards;
+  animation:birdFlyLTR 11.5s linear forwards;
 }
-.flying-bird .bird-dir{
-  width:100%;height:100%;transform:scaleX(var(--bird-dir, 1));
-}
+.flying-bird.rtl{animation-name:birdFlyRTL}
+.flying-bird .bird-dir{width:100%;height:100%}
+.flying-bird.rtl .bird-dir{transform:scaleX(-1)}
 .flying-bird svg{
   width:100%;height:100%;display:block;overflow:visible;
-  animation:birdBob 1.15s ease-in-out infinite alternate;
+  animation:birdBob 0.95s ease-in-out infinite alternate;
 }
 .flying-bird .bird-wing{
-  transform-box:fill-box;transform-origin:35% 42%;
-  animation:birdWing .36s ease-in-out infinite alternate;
+  transform-box:fill-box;transform-origin:38% 42%;
+  animation:birdWing 0.34s ease-in-out infinite alternate;
 }
-@keyframes birdFly{
-  0%{transform:translate3d(var(--bird-start, -56px), 0, 0);opacity:0}
-  8%{opacity:var(--bird-op, 0.86)}
-  50%{transform:translate3d(50vw, var(--bird-arc, -18px), 0);opacity:var(--bird-op, 0.86)}
-  92%{opacity:var(--bird-op, 0.86)}
-  100%{transform:translate3d(var(--bird-end, calc(100vw + 56px)), var(--bird-dy, -10px), 0);opacity:0}
+@keyframes birdFlyLTR{
+  0%{transform:translate3d(-60px, 6px, 0);opacity:0}
+  4%{opacity:0.94}
+  30%{transform:translate3d(28vw, -14px, 0)}
+  65%{transform:translate3d(66vw, 10px, 0)}
+  95%{opacity:0.94}
+  100%{transform:translate3d(calc(100vw + 60px), -8px, 0);opacity:0}
+}
+@keyframes birdFlyRTL{
+  0%{transform:translate3d(calc(100vw + 60px), -6px, 0);opacity:0}
+  4%{opacity:0.94}
+  35%{transform:translate3d(68vw, 12px, 0)}
+  70%{transform:translate3d(30vw, -14px, 0)}
+  95%{opacity:0.94}
+  100%{transform:translate3d(-60px, 8px, 0);opacity:0}
 }
 @keyframes birdBob{
-  0%{transform:translateY(-3px) rotate(-3deg)}
-  100%{transform:translateY(3px) rotate(3deg)}
+  0%{transform:translateY(-4px) rotate(-3deg)}
+  100%{transform:translateY(4px) rotate(3deg)}
 }
 @keyframes birdWing{
-  0%{transform:rotate(-20deg) scaleY(0.95)}
-  100%{transform:rotate(24deg) scaleY(0.75)}
+  0%{transform:rotate(-22deg) scaleY(0.95)}
+  100%{transform:rotate(26deg) scaleY(0.76)}
 }
 
 /* Woven fading green rings around the perimeter */
@@ -1532,19 +1541,21 @@ setInterval(()=>{
     </svg>`
   ];
   const birdPalettes=[
-    {body:'#bfe7cf',belly:'#f6fcf8',wing:'#82c9a6',tail:'#74c09b',stroke:'#3a7d5c',cheek:'#f5b7b1',beak:'#f3be5c'},
-    {body:'#fceeb5',belly:'#fffdf3',wing:'#eed07a',tail:'#e6be5c',stroke:'#8c7232',cheek:'#f5b7b1',beak:'#e89f43'}
+    {body:'#95d5b2',belly:'#ffffff',wing:'#52b788',tail:'#52b788',stroke:'#2d6a4f',cheek:'#f4a29e',beak:'#f4a261'},
+    {body:'#fae199',belly:'#fffef7',wing:'#e9c46a',tail:'#e0b451',stroke:'#7a6328',cheek:'#f4a29e',beak:'#e78a4e'}
   ];
   function birdSVG(p){
-    return `<div class="bird-dir"><svg viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M11 21L3 16.5L5.5 22.5L2.5 26L11.5 25Z" fill="${p.tail}" stroke="${p.stroke}" stroke-width="1" stroke-linejoin="round"/>
-      <ellipse cx="22.5" cy="21" rx="13" ry="11.5" fill="${p.body}" stroke="${p.stroke}" stroke-width="1.05"/>
-      <path d="M15.5 24.5C18.5 30.8 29 31.2 33 24.5C29 21.8 19.5 21.8 15.5 24.5Z" fill="${p.belly}"/>
-      <path d="M34.5 19L41 21.2L34.2 23.6Z" fill="${p.beak}" stroke="${p.stroke}" stroke-width="0.9" stroke-linejoin="round"/>
-      <circle cx="29.5" cy="17.2" r="2.1" fill="#1b3a2b"/>
-      <circle cx="30.2" cy="16.5" r="0.7" fill="#ffffff"/>
-      <ellipse cx="27.2" cy="21" rx="2.4" ry="1.4" fill="${p.cheek}" opacity="0.75"/>
-      <path class="bird-wing" d="M14.5 18.5C17.5 13 24.5 13.8 25.5 20.2C23.5 23.8 16.5 23.8 14.5 18.5Z" fill="${p.wing}" stroke="${p.stroke}" stroke-width="0.95" stroke-linejoin="round"/>
+    return `<div class="bird-dir"><svg viewBox="0 0 54 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 24L3 18.5L6.5 25L3 29.5L13.5 28.5Z" fill="${p.tail}" stroke="${p.stroke}" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M23 9.5C23.5 6.8 25.8 6 26.8 8.5C27.8 6.8 29.6 7.5 29.2 10" stroke="${p.stroke}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="26.5" cy="24" rx="15" ry="13.5" fill="${p.body}" stroke="${p.stroke}" stroke-width="1.25"/>
+      <path d="M17.5 27.5C21 35.8 34.5 36.2 39 27.5C34 24 22 24 17.5 27.5Z" fill="${p.belly}"/>
+      <path d="M40.5 21.2L48.5 23.8L40.2 26.8Z" fill="${p.beak}" stroke="${p.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
+      <circle cx="34.8" cy="19.2" r="2.5" fill="#1b3a2b"/>
+      <circle cx="35.6" cy="18.3" r="0.9" fill="#ffffff"/>
+      <ellipse cx="32" cy="23.8" rx="3" ry="1.7" fill="${p.cheek}" opacity="0.82"/>
+      <path class="bird-wing" d="M17.5 20.5C21.2 14.5 29.2 15.5 30.2 22.8C27.5 26.8 19.5 26.8 17.5 20.5Z" fill="${p.wing}" stroke="${p.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
+      <path d="M24 37.5L22.2 40.5M28.5 37.5L26.8 40.5" stroke="${p.stroke}" stroke-width="1.2" stroke-linecap="round"/>
     </svg></div>`;
   }
   function spawnFallingLeaf(){
@@ -1582,24 +1593,16 @@ setInterval(()=>{
   function spawnCuteBird(){
     if(document.hidden||container.querySelector('.flying-bird')) return;
     const bird=document.createElement('div');
-    bird.className='flying-bird';
     const ltr=Math.random()<0.5;
-    const dur=11.5+Math.random()*3;
-    const topVh=Math.floor(Math.random()*38+14);
-    const arcPx=Math.floor(Math.random()*28-14);
-    const dyPx=Math.floor(Math.random()*24-12);
-    const w=Math.floor(Math.random()*7+36);
+    bird.className=ltr?'flying-bird':'flying-bird rtl';
+    const dur=10.5+Math.random()*2.5;
+    const topVh=Math.floor(Math.random()*34+15);
+    const w=Math.floor(Math.random()*8+44);
     const p=birdPalettes[Math.floor(Math.random()*birdPalettes.length)];
+    bird.style.top=topVh+'vh';
     bird.style.width=w+'px';
-    bird.style.height=Math.round(w*0.84)+'px';
-    bird.style.setProperty('--bird-top',topVh+'vh');
-    bird.style.setProperty('--bird-dur',dur.toFixed(1)+'s');
-    bird.style.setProperty('--bird-dir',ltr?'1':'-1');
-    bird.style.setProperty('--bird-start',ltr?'-56px':'calc(100vw + 56px)');
-    bird.style.setProperty('--bird-end',ltr?'calc(100vw + 56px)':'-56px');
-    bird.style.setProperty('--bird-arc',arcPx+'px');
-    bird.style.setProperty('--bird-dy',dyPx+'px');
-    bird.style.setProperty('--bird-op',(0.80+Math.random()*0.10).toFixed(2));
+    bird.style.height=Math.round(w*0.82)+'px';
+    bird.style.animationDuration=dur.toFixed(1)+'s';
     bird.innerHTML=birdSVG(p);
     container.appendChild(bird);
     const removeBird=()=>{if(bird.parentNode) bird.remove();};
@@ -1614,7 +1617,7 @@ setInterval(()=>{
   function scheduleNextBird(){
     clearTimeout(birdTimer);
     if(document.hidden) return;
-    birdTimer=setTimeout(()=>{spawnCuteBird();scheduleNextBird();},16000+Math.random()*10000);
+    birdTimer=setTimeout(()=>{spawnCuteBird();scheduleNextBird();},10000+Math.random()*6000);
   }
   function startAmbience(){
     clearTimeout(leafTimer);
@@ -1623,7 +1626,7 @@ setInterval(()=>{
     clearTimeout(birdBootTimer);
     if(document.hidden) return;
     bootTimer=setTimeout(()=>{spawnFallingLeaf();scheduleNextLeaf();},300);
-    birdBootTimer=setTimeout(()=>{spawnCuteBird();scheduleNextBird();},3200);
+    birdBootTimer=setTimeout(()=>{spawnCuteBird();scheduleNextBird();},650);
   }
   document.addEventListener('visibilitychange',()=>{
     clearTimeout(leafTimer);
