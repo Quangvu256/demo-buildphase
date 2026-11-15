@@ -81,45 +81,58 @@ p{margin:0}
 
 /* Chú chim tròn nhỏ thỉnh thoảng bay ngang qua */
 .flying-bird{
-  position:fixed;left:0;top:24vh;width:48px;height:40px;pointer-events:none;
-  filter:drop-shadow(0 4px 10px rgba(27,67,50,0.14));
+  position:fixed;left:0;top:24vh;width:40px;height:33px;pointer-events:none;
+  filter:drop-shadow(0 2px 6px rgba(45,106,79,0.06));
   will-change:transform,opacity;
-  animation:birdFlyLTR 11.5s linear forwards;
+  animation:birdFlyLTR 13.5s linear forwards;
 }
 .flying-bird.rtl{animation-name:birdFlyRTL}
 .flying-bird .bird-dir{width:100%;height:100%}
 .flying-bird.rtl .bird-dir{transform:scaleX(-1)}
 .flying-bird svg{
   width:100%;height:100%;display:block;overflow:visible;
-  animation:birdBob 0.95s ease-in-out infinite alternate;
+  animation:birdBob 1.3s ease-in-out infinite alternate;
 }
 .flying-bird .bird-wing{
   transform-box:fill-box;transform-origin:38% 42%;
-  animation:birdWing 0.34s ease-in-out infinite alternate;
+  animation:birdWing 0.46s ease-in-out infinite alternate;
+}
+.flying-bird.perched svg{
+  animation:birdIdle 3.2s ease-in-out infinite;
+}
+.flying-bird.perched .bird-wing{
+  animation:none;transform:rotate(-6deg) scaleY(0.92);
+}
+@keyframes birdIdle{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  22%{transform:translateY(-3px) rotate(-3deg)}
+  34%{transform:translateY(0) rotate(1deg)}
+  62%{transform:translateY(0) rotate(4deg)}
+  78%{transform:translateY(-1px) rotate(-2deg)}
 }
 @keyframes birdFlyLTR{
   0%{transform:translate3d(-60px, 6px, 0);opacity:0}
-  4%{opacity:0.94}
-  30%{transform:translate3d(28vw, -14px, 0)}
-  65%{transform:translate3d(66vw, 10px, 0)}
-  95%{opacity:0.94}
-  100%{transform:translate3d(calc(100vw + 60px), -8px, 0);opacity:0}
+  6%{opacity:0.48}
+  30%{transform:translate3d(28vw, -12px, 0)}
+  65%{transform:translate3d(66vw, 8px, 0)}
+  94%{opacity:0.48}
+  100%{transform:translate3d(calc(100vw + 60px), -6px, 0);opacity:0}
 }
 @keyframes birdFlyRTL{
   0%{transform:translate3d(calc(100vw + 60px), -6px, 0);opacity:0}
-  4%{opacity:0.94}
-  35%{transform:translate3d(68vw, 12px, 0)}
-  70%{transform:translate3d(30vw, -14px, 0)}
-  95%{opacity:0.94}
-  100%{transform:translate3d(-60px, 8px, 0);opacity:0}
+  6%{opacity:0.48}
+  35%{transform:translate3d(68vw, 10px, 0)}
+  70%{transform:translate3d(30vw, -12px, 0)}
+  94%{opacity:0.48}
+  100%{transform:translate3d(-60px, 6px, 0);opacity:0}
 }
 @keyframes birdBob{
-  0%{transform:translateY(-4px) rotate(-3deg)}
-  100%{transform:translateY(4px) rotate(3deg)}
+  0%{transform:translateY(-3px) rotate(-2deg)}
+  100%{transform:translateY(3px) rotate(2deg)}
 }
 @keyframes birdWing{
-  0%{transform:rotate(-22deg) scaleY(0.95)}
-  100%{transform:rotate(26deg) scaleY(0.76)}
+  0%{transform:rotate(-16deg) scaleY(0.96)}
+  100%{transform:rotate(20deg) scaleY(0.80)}
 }
 
 /* Woven fading green rings around the perimeter */
@@ -730,7 +743,7 @@ td.mono{font-size:11.5px;white-space:nowrap}
           </svg>
         </div>
 
-        <h1>Chào bạn, hôm nay bạn cảm thấy<br>thế nào?</h1>
+        <h1><span class="hero-perch">Chào bạn</span>, hôm nay bạn cảm thấy<br>thế nào?</h1>
         <p class="zen-sub">Không gian luôn lắng nghe và đồng hành cùng bạn trong yên tĩnh.</p>
 
         <div class="mood-pebbles">
@@ -1541,21 +1554,21 @@ setInterval(()=>{
     </svg>`
   ];
   const birdPalettes=[
-    {body:'#95d5b2',belly:'#ffffff',wing:'#52b788',tail:'#52b788',stroke:'#2d6a4f',cheek:'#f4a29e',beak:'#f4a261'},
-    {body:'#fae199',belly:'#fffef7',wing:'#e9c46a',tail:'#e0b451',stroke:'#7a6328',cheek:'#f4a29e',beak:'#e78a4e'}
+    {body:'rgba(183,228,199,0.72)',belly:'rgba(255,255,255,0.78)',wing:'rgba(116,198,157,0.68)',tail:'rgba(116,198,157,0.62)',stroke:'rgba(64,145,108,0.48)',cheek:'rgba(244,162,158,0.55)',beak:'rgba(244,182,110,0.72)',eye:'rgba(45,106,79,0.68)'},
+    {body:'rgba(254,242,192,0.76)',belly:'rgba(255,254,247,0.80)',wing:'rgba(233,196,106,0.60)',tail:'rgba(224,184,92,0.58)',stroke:'rgba(154,132,58,0.42)',cheek:'rgba(244,162,158,0.55)',beak:'rgba(235,164,104,0.70)',eye:'rgba(92,76,34,0.65)'}
   ];
   function birdSVG(p){
     return `<div class="bird-dir"><svg viewBox="0 0 54 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13 24L3 18.5L6.5 25L3 29.5L13.5 28.5Z" fill="${p.tail}" stroke="${p.stroke}" stroke-width="1.2" stroke-linejoin="round"/>
-      <path d="M23 9.5C23.5 6.8 25.8 6 26.8 8.5C27.8 6.8 29.6 7.5 29.2 10" stroke="${p.stroke}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <ellipse cx="26.5" cy="24" rx="15" ry="13.5" fill="${p.body}" stroke="${p.stroke}" stroke-width="1.25"/>
+      <path d="M13 24L3 18.5L6.5 25L3 29.5L13.5 28.5Z" fill="${p.tail}" stroke="${p.stroke}" stroke-width="0.95" stroke-linejoin="round"/>
+      <path d="M23 9.5C23.5 6.8 25.8 6 26.8 8.5C27.8 6.8 29.6 7.5 29.2 10" stroke="${p.stroke}" stroke-width="0.95" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="26.5" cy="24" rx="15" ry="13.5" fill="${p.body}" stroke="${p.stroke}" stroke-width="1"/>
       <path d="M17.5 27.5C21 35.8 34.5 36.2 39 27.5C34 24 22 24 17.5 27.5Z" fill="${p.belly}"/>
-      <path d="M40.5 21.2L48.5 23.8L40.2 26.8Z" fill="${p.beak}" stroke="${p.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
-      <circle cx="34.8" cy="19.2" r="2.5" fill="#1b3a2b"/>
-      <circle cx="35.6" cy="18.3" r="0.9" fill="#ffffff"/>
-      <ellipse cx="32" cy="23.8" rx="3" ry="1.7" fill="${p.cheek}" opacity="0.82"/>
-      <path class="bird-wing" d="M17.5 20.5C21.2 14.5 29.2 15.5 30.2 22.8C27.5 26.8 19.5 26.8 17.5 20.5Z" fill="${p.wing}" stroke="${p.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
-      <path d="M24 37.5L22.2 40.5M28.5 37.5L26.8 40.5" stroke="${p.stroke}" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M40.5 21.2L48.5 23.8L40.2 26.8Z" fill="${p.beak}" stroke="${p.stroke}" stroke-width="0.9" stroke-linejoin="round"/>
+      <circle cx="34.8" cy="19.2" r="2.2" fill="${p.eye}"/>
+      <circle cx="35.5" cy="18.4" r="0.8" fill="rgba(255,255,255,0.85)"/>
+      <ellipse cx="32" cy="23.8" rx="2.8" ry="1.6" fill="${p.cheek}"/>
+      <path class="bird-wing" d="M17.5 20.5C21.2 14.5 29.2 15.5 30.2 22.8C27.5 26.8 19.5 26.8 17.5 20.5Z" fill="${p.wing}" stroke="${p.stroke}" stroke-width="0.95" stroke-linejoin="round"/>
+      <path d="M24 37.5L22.2 40.5M28.5 37.5L26.8 40.5" stroke="${p.stroke}" stroke-width="0.95" stroke-linecap="round"/>
     </svg></div>`;
   }
   function spawnFallingLeaf(){
@@ -1595,15 +1608,71 @@ setInterval(()=>{
     const bird=document.createElement('div');
     const ltr=Math.random()<0.5;
     bird.className=ltr?'flying-bird':'flying-bird rtl';
-    const dur=10.5+Math.random()*2.5;
-    const topVh=Math.floor(Math.random()*34+15);
-    const w=Math.floor(Math.random()*8+44);
+    const w=Math.floor(Math.random()*6+36);
+    const h=Math.round(w*0.82);
     const p=birdPalettes[Math.floor(Math.random()*birdPalettes.length)];
-    bird.style.top=topVh+'vh';
     bird.style.width=w+'px';
-    bird.style.height=Math.round(w*0.82)+'px';
-    bird.style.animationDuration=dur.toFixed(1)+'s';
+    bird.style.height=h+'px';
     bird.innerHTML=birdSVG(p);
+
+    const perch=$('#zenHero .hero-perch');
+    if(perch&&perch.offsetParent!==null&&typeof bird.animate==='function'){
+      const pr=perch.getBoundingClientRect();
+      const landX=Math.round(pr.left+pr.width*(0.24+Math.random()*0.48)-w*0.5);
+      const landY=Math.round(pr.top+pr.height*0.12-h*0.92);
+      const startX=ltr?-60:window.innerWidth+60;
+      const endX=ltr?window.innerWidth+60:-60;
+      const startY=Math.max(12,landY-Math.floor(Math.random()*55+38));
+      const endY=Math.max(12,landY-Math.floor(Math.random()*65+44));
+
+      bird.style.top='0px';
+      bird.style.animation='none';
+      container.appendChild(bird);
+
+      let alive=true, perchTimer=null, guardTimer=null;
+      const cleanup=()=>{
+        alive=false;
+        clearTimeout(perchTimer);
+        clearInterval(guardTimer);
+        if(bird.parentNode) bird.remove();
+      };
+      guardTimer=setInterval(()=>{
+        if(!alive||!bird.parentNode||document.hidden||perch.offsetParent===null){
+          cleanup();
+        }
+      },350);
+
+      const approach=bird.animate([
+        {transform:`translate3d(${startX}px, ${startY}px, 0)`,opacity:0},
+        {transform:`translate3d(${Math.round((startX+landX)/2)}px, ${Math.min(startY,landY)-12}px, 0)`,opacity:0.52,offset:0.55},
+        {transform:`translate3d(${landX}px, ${landY-8}px, 0)`,opacity:0.56,offset:0.88},
+        {transform:`translate3d(${landX}px, ${landY}px, 0)`,opacity:0.58}
+      ],{duration:2800,easing:'cubic-bezier(0.22, 1, 0.36, 1)',fill:'forwards'});
+
+      approach.onfinish=()=>{
+        if(!alive||perch.offsetParent===null){cleanup();return;}
+        bird.classList.add('perched');
+        const stayMs=4400+Math.random()*2200;
+        perchTimer=setTimeout(()=>{
+          if(!alive){cleanup();return;}
+          bird.classList.remove('perched');
+          const takeoff=bird.animate([
+            {transform:`translate3d(${landX}px, ${landY}px, 0)`,opacity:0.58},
+            {transform:`translate3d(${landX+(ltr?28:-28)}px, ${landY-22}px, 0)`,opacity:0.52,offset:0.22},
+            {transform:`translate3d(${Math.round((landX+endX)/2)}px, ${Math.min(landY,endY)-16}px, 0)`,opacity:0.46,offset:0.65},
+            {transform:`translate3d(${endX}px, ${endY}px, 0)`,opacity:0}
+          ],{duration:2600,easing:'cubic-bezier(0.4, 0, 0.2, 1)',fill:'forwards'});
+          takeoff.onfinish=cleanup;
+          setTimeout(cleanup,3200);
+        },stayMs);
+      };
+      return;
+    }
+
+    const dur=12.5+Math.random()*3;
+    const topVh=Math.floor(Math.random()*26+12);
+    bird.style.top=topVh+'vh';
+    bird.style.animationDuration=dur.toFixed(1)+'s';
     container.appendChild(bird);
     const removeBird=()=>{if(bird.parentNode) bird.remove();};
     bird.addEventListener('animationend',removeBird,{once:true});
@@ -1617,7 +1686,7 @@ setInterval(()=>{
   function scheduleNextBird(){
     clearTimeout(birdTimer);
     if(document.hidden) return;
-    birdTimer=setTimeout(()=>{spawnCuteBird();scheduleNextBird();},10000+Math.random()*6000);
+    birdTimer=setTimeout(()=>{spawnCuteBird();scheduleNextBird();},15000+Math.random()*9000);
   }
   function startAmbience(){
     clearTimeout(leafTimer);
