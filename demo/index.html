@@ -6,7 +6,7 @@
 <title>Bình An - Không Gian Chữa Lành &amp; Lắng Nghe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,SOFT,wght@0,9..144,100,400..600;1,9..144,100,400..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --green:#2d6a4f; --green-dark:#1b4332; --sage:#52b788; --sage-light:#d8f3dc;
@@ -19,7 +19,8 @@
   --weave-1:#4b8b6c; --weave-2:#74c69d; --weave-gold:#e9c46a;
   --shadow:0 4px 24px rgba(45,106,79,.06);
   --shadow-lg:0 12px 38px rgba(27,58,43,.10);
-  --f-ui:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Fraunces","Lora",Georgia,serif;
+  --f-ui:"Be Vietnam Pro","Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
 
@@ -27,7 +28,8 @@
 html,body{min-height:100%}
 body{
   margin:0;
-  font-family:var(--f-ui);font-size:14px;line-height:1.55;color:var(--ink);
+  font-family:var(--f-ui);font-size:14px;line-height:1.64;letter-spacing:.004em;color:var(--ink);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;
   background:radial-gradient(circle at 50% 30%, #ffffff 0%, #fbfdf9 35%, #fefcf0 70%, #fdf8e2 100%);
   display:flex;flex-direction:column;min-height:100vh;position:relative;overflow-x:hidden;
 }
@@ -35,7 +37,12 @@ body{
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;transition:all .18s ease}
 :focus-visible{outline:2px solid var(--sage);outline-offset:2px}
-h1,h2,h3,h4{margin:0;text-wrap:balance}
+h1,h2,h3{
+  margin:0;text-wrap:balance;font-family:var(--f-display);
+  font-optical-sizing:auto;font-variation-settings:"SOFT" 100,"opsz" 32;
+  font-weight:500;letter-spacing:-.012em;
+}
+h4{margin:0;text-wrap:balance}
 p{margin:0}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 [hidden]{display:none !important}
@@ -160,7 +167,7 @@ p{margin:0}
   display:flex;align-items:center;justify-content:center;color:#74c69d;
 }
 .brand-logo svg{width:20px;height:20px}
-.brand-title{font-size:19px;font-weight:700;letter-spacing:-.02em;color:#e8f8ee}
+.brand-title{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"opsz" 24;font-size:20px;font-weight:600;letter-spacing:-.01em;color:#e8f8ee}
 .tag-syn{font-family:var(--f-mono);font-size:10px;background:rgba(255,255,255,.10);color:#d8f3dc;padding:2px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.14)}
 
 .head-nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
@@ -283,10 +290,12 @@ p{margin:0}
 }
 .zen-icon svg{width:24px;height:24px}
 .zen-hero h1{
-  font-size:clamp(24px,3.6vw,36px);font-weight:600;letter-spacing:-.02em;
-  color:var(--ink-heading);line-height:1.25;margin-bottom:12px;
+  font-size:clamp(26px,3.8vw,38px);font-weight:500;letter-spacing:-.015em;
+  font-variation-settings:"SOFT" 100,"opsz" 48;
+  color:var(--ink-heading);line-height:1.28;margin-bottom:12px;
 }
-.zen-sub{font-size:15px;color:var(--muted);max-width:440px;margin:0 auto 28px}
+.zen-hero h1 em{font-style:italic;font-weight:400}
+.zen-sub{font-size:15px;font-weight:300;line-height:1.68;letter-spacing:.006em;color:var(--muted);max-width:440px;margin:0 auto 28px}
 .mood-pebbles{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-bottom:28px}
 .pebble{
   display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;
@@ -348,7 +357,7 @@ p{margin:0}
 }
 .stage[data-view="split"] .chatlog{max-height:none}
 .msg{max-width:84%;display:flex;flex-direction:column;gap:4px}
-.msg .b{padding:11px 16px;border-radius:20px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+.msg .b{padding:11px 16px;border-radius:20px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;letter-spacing:.004em}
 .msg.user{align-self:flex-end;align-items:flex-end}
 .msg.user .b{background:var(--green);color:#ffffff;border-bottom-right-radius:6px;box-shadow:0 2px 10px rgba(45,106,79,.14)}
 .msg.ai .b{background:rgba(255,255,255,.90);border:1px solid var(--line);border-bottom-left-radius:6px;box-shadow:0 2px 8px rgba(45,106,79,.04)}
@@ -470,7 +479,7 @@ textarea{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.92
   align-items:center;justify-content:center;
 }
 .overlay-inner{width:100%;max-width:460px;display:flex;flex-direction:column;gap:14px}
-.overlay h2{font-size:26px;color:var(--crisis);font-weight:700}
+.overlay h2{font-family:var(--f-ui);font-size:26px;color:var(--crisis);font-weight:700}
 .overlay .big{background:var(--crisis);color:#ffffff;border-radius:18px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:18px}
 .overlay .big .mono{font-size:22px}
 .overlay .exit{display:flex;flex-direction:column;gap:8px;margin-top:8px}
@@ -743,7 +752,7 @@ td.mono{font-size:11.5px;white-space:nowrap}
           </svg>
         </div>
 
-        <h1><span class="hero-perch">Chào bạn</span>, hôm nay bạn cảm thấy<br>thế nào?</h1>
+        <h1><span class="hero-perch">Chào bạn</span>, hôm nay bạn cảm thấy<br><em>thế nào?</em></h1>
         <p class="zen-sub">Không gian luôn lắng nghe và đồng hành cùng bạn trong yên tĩnh.</p>
 
         <div class="mood-pebbles">
